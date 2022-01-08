@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Auktioner.Models.Inventory>
+
+@{
+    ViewData["Title"] = "Items sold";
+}
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SpecialId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InventoryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InventoryDecade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FinalPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpecialId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InventoryName)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.InventoryDecade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FinalPrice)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+            </td>
+
+            <td>
+                <a asp-action="ItemDelivered" asp-route-inventoryId="@item.SpecialId">Delivered</a> 
+                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

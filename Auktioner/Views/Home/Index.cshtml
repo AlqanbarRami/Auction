@@ -1,0 +1,100 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+
+@inject SignInManager<Customer> SignInManager
+@inject UserManager<Customer> UserManager
+@inject RoleManager<IdentityRole> roleManager
+
+    <head>
+        <link href="~/css/Home.css" rel="stylesheet" />
+            @{
+        ViewData["Title"] = "Auktioner";
+    }
+    
+    </head>
+
+ 
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="main-container-register">
+    <div class="regiset-note">
+   <strong> * Remember that the starting price will be added to the costs of selling through us.
+    We take a commission depending on the age of the item, the older the item, the higher the cost.
+    Because old items require more care during shipment. 10 SEK more on every decade.
+    <br>
+    <br>
+    * You can't bid on your item. 
+    <br>
+    <br>
+    *You can't edit or delete any item mark as sold or Delivered.
+    <br>
+    <br>
+     You can edit or delete any item that you add but you can't do that on others item.</strong>
+</div>
+    <div class="logged-user">
+    <div class="all-items-register">
+        <a asp-controller="Inventory" asp-action="Inventarie">Display Items </a>
+    </div>
+    
+    <div class="all-Category">
+      <a asp-controller="Category" asp-action="Index">Display Categories</a>
+    </div>
+        <div class="all-items-register">
+            <a  asp-controller="Customer" asp-action="GetItems">Your Items</a>
+        </div>
+        <div class="all-items-register">
+            <a asp-controller="Customer" asp-action="GetItemsBought" asp-route-customerId="@User.FindFirst(ClaimTypes.NameIdentifier).Value">Items You Bought</a>
+        </div>
+       <div class="all-items-register">
+        <a  asp-controller="Customer" asp-action="NewInventory">Sell an Item </a>
+       </div>
+    </div>
+     </div>
+  }     
+ 
+
+
+else
+{
+<div class="main-container-register">
+<div class="register">
+    <strong>
+
+ 
+    <span>
+        Have an account? <a asp-area="Identity" asp-page="/Account/Login">Log in</a> now to see and manage your items.<br/> Don't have an account? 
+        <a asp-area="Identity" asp-page="/Account/Register">Register</a> a new account and sell or buy now.
+    </span> 
+    <br>
+    <br>
+    <span>
+        Note : You can see the available items without an account, but you need an account to be able to buy and sell.
+    </span>
+    <br>
+</strong>
+</div>
+
+<div class="all-items-register">
+        <a asp-controller="Inventory" asp-action="Inventarie">Display Items </a>
+
+</div>
+
+<div class="all-Category">
+    <a asp-controller="Category" asp-action="Index">Display Categories</a>
+</div>
+</div>
+
+}
+
+@if(!await roleManager.RoleExistsAsync("Admin")){
+    <div>
+        <h3>
+            There is currently no Admin. Please register yourself as an admin of this site to be able to manage it.
+        </h3>
+        <a asp-controller="Admin" asp-action="AddUserAsAdmin" >Register As Admin</a>
+    </div>   
+}
+
+
+       

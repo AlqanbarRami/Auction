@@ -1,0 +1,111 @@
+﻿ @using System.Security.Claims
+    @using Microsoft.AspNetCore.Identity
+    @model InventoryViewModel
+    
+    
+    
+    @inject SignInManager<Customer> SignInManager
+    
+    
+    
+    <head>
+        <link href="~/css/Inventarie.css" rel="stylesheet" />
+            @{
+        ViewData["Title"] = "Inventarie";
+    }
+    
+    </head>
+
+    
+    @if (Model.inventories == null)
+    {
+        <div>Nothing yet!</div>
+    
+    }
+    
+    
+    else
+    {
+      @foreach(var item in Model.inventories)
+    {
+          <div class="item-main-container">
+    
+                <div class="item-container">
+    
+                    <div class="image-div">
+                    <img class="image" src="@item.InventoryImage">
+                    </div>
+    
+                    <div class="details">
+                        <span><strong>Id :</strong> @item.SpecialId</span>
+                        <span><strong>Title :</strong> @item.InventoryName </span>
+                        <span><strong>Year :</strong> @item.InventoryDecade</span>
+                        <span><strong>Price :</strong> @item.StartPrice</span>
+                        <span><strong>Description : </strong> @item.Description</span>
+                        <span><strong>Status :</strong> @item.Status</span>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                @if (User.FindFirst(ClaimTypes.NameIdentifier).Value == @item.CustomerId
+                || (SignInManager.IsSignedIn(User) && User.IsInRole("Admin")))
+                {
+                        <div class="edit-delete">
+                            <a class="edit" asp-controller="Customer" asp-action="UpdateInventory" asp-route-InventoryId="@item.InventoryId">Edit</a>
+                              <form asp-controller="Customer" asp-action="Delete" asp-route-InventoryId="@item.InventoryId" method="post">
+                            <button class="delete" type="submit" onclick="return confirm('Do you really want to delete this item?');">Delete</button>
+                            </form>
+                               </div>
+                               
+                            }
+                             }
+                          </div>
+                            </div>
+                              </div>
+    
+                        <div class="bids-container">
+                        <div class="bids">
+                            <span><strong>Bids Price Now</strong></span>
+                            @{
+                                var price = Model.SellerBuyers.Where(b => b.InventoryId == @item.SpecialId).Select(b => b.BidPrice).ToList();
+                                
+                                @if(price.Count != 0 )
+                                {
+                                     <span><strong>Price : </strong>@price.Max()</span>
+                                }
+                                else
+                                {
+                                    <span>No bid Yets</span>
+                                }
+                               }  
+                              
+                               @if (SignInManager.IsSignedIn(User))
+                               {
+                                
+                                   if(User.FindFirst(ClaimTypes.NameIdentifier).Value != @item.CustomerId){
+                                     
+                                   <form asp-controller="Inventory" asp-action="AddBid" asp-route-inventoryId="@item.SpecialId" asp-route-SellerId="@item.CustomerId" asp-route-BuyerId="@User.FindFirst(ClaimTypes.NameIdentifier).Value" asp-route-BidPrice=100 method="post" class="form-horizontal" role="form">
+                                       
+                                       <div class="form-group">
+                                        <button class="button-add-bid" type="submit">Add Bid 100SEK</button>
+                                </div>
+                           </form>
+           
+                       }
+                       else
+                       {
+                           <strong>You Can't Bid On Your Item!</strong>
+                       }
+           
+                             }
+    
+                     
+                         </div>
+                    </div>
+                    
+                     
+         
+                        
+
+                            }
+                            }
+          
+

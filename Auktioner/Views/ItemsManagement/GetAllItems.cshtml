@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Auktioner.Models.Inventory>
+
+@{
+    ViewData["Title"] = "All Items";
+}
+
+<h1>Items in Auctions</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SpecialId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InventoryName)
+            </th>
+    
+            <th>
+                @Html.DisplayNameFor(model => model.InventoryDecade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartPrice)
+            </th>
+      
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+           
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpecialId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InventoryName)
+            </td>     
+            <td>
+                @Html.DisplayFor(modelItem => item.InventoryDecade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartPrice)
+            </td>
+     
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+            </td>
+
+            <td>
+                <a asp-controller="Customer" asp-action="UpdateInventory" asp-route-id="@item.InventoryId">Edit</a> |
+                <a asp-action="GetAllBidding" asp-route-inventoryId="@item.SpecialId">See The bids</a> |
+        <form asp-controller="Customer" asp-action="Delete" asp-route-InventoryId="@item.InventoryId" method="post">
+                 <button type="submit" onclick="return confirm('Do you really want to delete this item?');" class="btn btn-sm btn-danger">
+                            Delete
+                        </button>
+                        </form>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

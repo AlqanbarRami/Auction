@@ -1,0 +1,34 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model CategoryViewModel
+@inject SignInManager<Customer> SignInManager
+
+@{
+    ViewData["Title"] = "All Categories";
+}
+
+          <div class="main-container-register">
+          <div class="register">
+                 @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+{
+ 
+       <a class="btn btn-sm btn-primary"asp-controller="Category" asp-action="AddCategory"  >Add New Category</a>
+  
+}
+@foreach(var item in Model.Categories)
+    {
+         
+            <a class ="all-Category" asp-action="IemtsInCategory" asp-route-CategoryId="@item.CategoryId" >@item.CategoryName</a>
+        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+        {
+            <form asp-controller="Category" asp-action="DeleteCategory" asp-route-CategoryId="@item.CategoryId" method="post">
+                <a class="btn btn-sm btn-primary" asp-controller="Category" asp-action="UpdateCategory" asp-route-CategoryId="@item.CategoryId">Edit</a>
+            <button type="submit" onclick="return confirm('Do you really want to delete this Category?');" class="btn btn-sm btn-danger">
+               Delete
+             </button>
+              </form>
+               }
+    }
+    </div>
+    </div>
+         
+   

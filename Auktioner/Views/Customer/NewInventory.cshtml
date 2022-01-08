@@ -1,0 +1,67 @@
+﻿@model InventoryViewModel
+
+<h2>Add new Inventory</h2>
+<h6><strong>Note : Remember that the starting price will be added to the costs of selling through us.  We take a commission depending on the age of the item, the older the item, the higher the cost.  Because old items require more care during shipment.
+    10 SEK more on every decade.
+</strong></h6>
+
+<form asp-controller="Customer" asp-action="NewInventory" method="post" class="form-horizontal" role="form">
+    <hr />
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Inventory.InventoryName" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Inventory.InventoryName" class="form-control" />
+            <span asp-validation-for="Inventory.InventoryName" class="text-danger"></span>
+        </div>
+    </div>
+
+    
+    <div class="form-group">
+        <label asp-for="Inventory.InventoryImage" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Inventory.InventoryImage" class="form-control" />
+            <span asp-validation-for="Inventory.InventoryImage" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Inventory.InventoryDecade" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Inventory.InventoryDecade" class="form-control" />
+            <span asp-validation-for="Inventory.InventoryDecade" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Inventory.StartPrice" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Inventory.StartPrice" class="form-control" />
+            <span asp-validation-for="Inventory.StartPrice" class="text-danger"></span>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label asp-for="Inventory.Description" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Inventory.Description" class="form-control" />
+            <span asp-validation-for="Inventory.Description" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Categories" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <select asp-for="CategoryId" class="form-control"
+                    asp-items="Model.Categories"></select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-primary" value="Add" />
+        </div>
+    </div>
+</form>

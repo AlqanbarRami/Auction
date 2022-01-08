@@ -1,0 +1,22 @@
+﻿@model List<Customer>
+@{
+    ViewData["Title"] = "GetAdmins";
+}
+
+<h1>GetAdmins</h1>
+@if (!Model.Any())
+{
+    <span>No Admins Yet</span>
+}
+else
+{
+@foreach (var item in Model)
+{
+    <span> FullName: @item.FirstName @item.LastName  Email: @item.Email</span>
+      <form asp-action="DeleteAdmin" asp-route-userId="@item.Id" method="post">
+                      <button type="submit"  class="btn btn-sm btn-danger">
+                            Delete Admin
+                        </button>
+                </form>
+}
+}

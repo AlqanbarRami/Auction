@@ -1,0 +1,59 @@
+﻿@using Microsoft.AspNetCore.Http
+@using System.Security.Claims
+@model IEnumerable<Inventory>
+<head>
+     <link href="~/css/Inventarie.css" rel="stylesheet" />
+     @{
+    ViewData["Title"] = "Your Items";
+}
+</head>
+
+
+<h1>GetItems</h1>
+@if(Model == null)
+{
+    <div>
+        You don't have any items yet!
+    </div>
+}
+else{
+    @foreach (var item in Model)
+    {
+           <div class="item-main-container">
+    
+                <div class="item-container">
+    
+                    <div class="image-div">
+                    <img class="image" src="@item.InventoryImage">
+                    </div>
+    
+                    <div class="details">
+                        <span><strong>Id :</strong> @item.SpecialId</span>
+                        <span><strong>Title :</strong> @item.InventoryName </span>
+                        <span><strong>Year :</strong> @item.InventoryDecade</span>
+                        <span><strong>Price :</strong> @item.StartPrice</span>
+                        <span><strong>Description : </strong> @item.Description</span>
+                        <span><strong>Status :</strong> @item.Status</span>
+                        <span><strong>Category :</strong> @item.Category.CategoryName</span>
+            @if (User.FindFirst(ClaimTypes.NameIdentifier).Value == @item.CustomerId)
+            {
+                if (@item.Status == "Auction started")
+                {
+                        <div class="edit-delete">
+                            <a class="edit" asp-controller="Customer" asp-action="UpdateInventory" asp-route-InventoryId="@item.InventoryId">Edit</a>
+                              <form asp-controller="Customer" asp-action="Delete" asp-route-InventoryId="@item.InventoryId" method="post">
+                            <button class="delete" type="submit" onclick="return confirm('Do you really want to delete this item?');">Delete</button>
+                            </form>
+                               </div>
+                }
+                else
+                {
+                    <a>You can't edit or remove After sale or delivery </a>
+                }
+            }
+        </div>
+        </div>
+        </div>
+    }
+}
+

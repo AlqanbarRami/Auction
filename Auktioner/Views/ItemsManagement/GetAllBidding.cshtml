@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Auktioner.Models.SellerBuyer>
+
+@{
+    ViewData["Title"] = "All Bids";
+}
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BuyerId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SellerId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BidPrice)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BuyerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SellerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BidPrice)
+            </td>
+            <td>
+                <a asp-action="MakeItSold" asp-route-inventoryId="@item.InventoryId" asp-route-finalPrice="@item.BidPrice"
+                asp-route-buyerId="@item.BuyerId"
+                asp-route-sellerId="@item.SellerId"
+                >Choose this price</a> 
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
